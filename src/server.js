@@ -358,16 +358,16 @@ function getAppHTML() {
 <body class="text-slate-800 antialiased selection:bg-amber-200">
   <div id="app">
     <!-- Top Header -->
-    <header class="bg-gradient-to-r from-slate-900 via-indigo-950 to-slate-900 text-white shadow-xl sticky top-0 z-40 border-b border-indigo-800/40">
+    <header class="bg-linear-to-r from-slate-900 via-indigo-950 to-slate-900 text-white shadow-xl sticky top-0 z-40 border-b border-indigo-800/40">
       <div class="max-w-7xl mx-auto px-4 py-3 flex flex-wrap justify-between items-center gap-4">
         <div class="flex items-center space-x-3.5">
-          <div class="w-11 h-11 rounded-xl bg-gradient-to-br from-amber-400 to-amber-600 flex items-center justify-center font-black text-2xl text-slate-950 shadow-md ring-2 ring-amber-300/30">
+          <div class="w-11 h-11 rounded-xl bg-linear-to-br from-amber-400 to-amber-600 flex items-center justify-center font-black text-2xl text-slate-950 shadow-md ring-2 ring-amber-300/30">
             SF
           </div>
           <div>
             <h1 class="text-lg font-extrabold leading-tight tracking-tight flex items-center gap-2">
               <span id="titleBrand">SnackFlow Operations</span>
-              <span class="text-[10px] bg-gradient-to-r from-amber-400 to-amber-500 text-slate-950 font-black px-2 py-0.5 rounded-full uppercase shadow-sm">v2.0 PRO</span>
+              <span class="text-[10px] bg-linear-to-r from-amber-400 to-amber-500 text-slate-950 font-black px-2 py-0.5 rounded-full uppercase shadow-sm">v2.0 PRO</span>
             </h1>
             <p class="text-xs text-indigo-200/80 font-medium">Centre for Digital Infrastructure • NIT Tiruchirappalli</p>
           </div>
@@ -395,7 +395,7 @@ function getAppHTML() {
           </div>
 
           <!-- 1-Click Benchmark Button -->
-          <button onclick="runFullBenchmark()" class="bg-gradient-to-r from-amber-500 to-amber-400 hover:from-amber-400 hover:to-amber-300 text-slate-950 font-extrabold text-xs px-4 py-2 rounded-lg shadow-md flex items-center transition active:scale-95">
+          <button onclick="runFullBenchmark()" class="bg-linear-to-rrom-amber-500 to-amber-400 hover:from-amber-400 hover:to-amber-300 text-slate-950 font-extrabold text-xs px-4 py-2 rounded-lg shadow-md flex items-center transition active:scale-95">
             <i class="fa-solid fa-bolt mr-1.5 text-slate-900"></i> Run Benchmark
           </button>
           <button onclick="resetBenchmark()" class="bg-slate-800 hover:bg-slate-700 text-slate-200 font-semibold text-xs px-3 py-2 rounded-lg border border-slate-700 transition">
@@ -439,7 +439,7 @@ function getAppHTML() {
     </header>
 
     <!-- Real-time Low Stock & Production Alert Banner -->
-    <div id="alertsBanner" class="hidden bg-gradient-to-r from-amber-500 to-amber-600 text-slate-950 px-4 py-2.5 text-xs font-bold shadow-md border-b border-amber-600">
+    <div id="alertsBanner" class="hidden bg-linear-to-r from-amber-500 to-amber-600 text-slate-950 px-4 py-2.5 text-xs font-bold shadow-md border-b border-amber-600">
       <div class="max-w-7xl mx-auto flex items-center justify-between">
         <div class="flex items-center space-x-2">
           <i class="fa-solid fa-triangle-exclamation text-base text-slate-900 animate-bounce"></i>
@@ -455,7 +455,7 @@ function getAppHTML() {
     <main class="max-w-7xl mx-auto p-4 sm:p-6 space-y-6">
 
       <!-- Toast / Notification banner -->
-      <div id="toast" class="hidden rounded-xl p-3.5 text-sm font-semibold flex items-center justify-between shadow-lg">
+      <div id="toast" class="hidden rounded-xl p-3.5 text-sm font-semibold items-center justify-between shadow-lg">
         <span id="toastMsg"></span>
         <button onclick="hideToast()" class="ml-4 font-bold text-lg">&times;</button>
       </div>
@@ -558,12 +558,12 @@ function getAppHTML() {
               </div>
 
               <!-- 1-Click Direct MP4 Download Button -->
-              <a href="/snackflow_benchmark_demo.mp4" download="snackflow_benchmark_demo.mp4" class="bg-gradient-to-r from-emerald-600 to-emerald-500 hover:from-emerald-500 hover:to-emerald-400 text-white font-extrabold text-xs px-4 py-2.5 rounded-xl shadow-md flex items-center transition active:scale-95">
+              <a href="/snackflow_benchmark_demo.mp4" download="snackflow_benchmark_demo.mp4" class="bg-linear-to-r from-emerald-600 to-emerald-500 hover:from-emerald-500 hover:to-emerald-400 text-white font-extrabold text-xs px-4 py-2.5 rounded-xl shadow-md flex items-center transition active:scale-95">
                 <i class="fa-solid fa-file-video mr-1.5 text-sm"></i>Download .MP4 Demo Video
               </a>
 
               <!-- Start In-Browser Canvas Recording Button -->
-              <button id="btnStartVideo" onclick="startVideoRecording()" class="bg-gradient-to-r from-rose-600 to-rose-500 hover:from-rose-500 hover:to-rose-400 text-white font-extrabold text-xs px-4 py-2.5 rounded-xl shadow-md flex items-center transition active:scale-95">
+              <button id="btnStartVideo" onclick="startVideoRecording()" class="bg-linear-to-r from-rose-600 to-rose-500 hover:from-rose-500 hover:to-rose-400 text-white font-extrabold text-xs px-4 py-2.5 rounded-xl shadow-md flex items-center transition active:scale-95">
                 <i class="fa-solid fa-video mr-1.5"></i>Live Canvas Record
               </button>
 
@@ -578,7 +578,7 @@ function getAppHTML() {
           <div class="space-y-4">
             <!-- Progress Bar -->
             <div class="w-full bg-slate-100 rounded-full h-2.5 overflow-hidden border border-slate-200">
-              <div id="videoProgressBar" class="bg-gradient-to-r from-rose-500 to-amber-500 h-2.5 rounded-full transition-all duration-300 w-0"></div>
+              <div id="videoProgressBar" class="bg-linear-to-r from-rose-500 to-amber-500 h-2.5 rounded-full transition-all duration-300 w-0"></div>
             </div>
 
             <div class="flex justify-between items-center text-xs font-semibold text-slate-600 px-1">
@@ -587,7 +587,7 @@ function getAppHTML() {
             </div>
 
             <!-- Official Pre-Rendered .MP4 Video Player -->
-            <div class="p-5 rounded-2xl bg-gradient-to-br from-slate-900 to-indigo-950 text-white border border-slate-700 shadow-xl space-y-3">
+            <div class="p-5 rounded-2xl bg-linear-to-br from-slate-900 to-indigo-950 text-white border border-slate-700 shadow-xl space-y-3">
               <div class="flex flex-wrap justify-between items-center gap-3">
                 <div class="flex items-center space-x-2">
                   <div class="w-8 h-8 rounded-lg bg-emerald-500 text-slate-950 flex items-center justify-center font-black">
@@ -615,7 +615,7 @@ function getAppHTML() {
 
             <!-- Narration Subtitles Banner -->
             <div class="p-4 bg-indigo-950 text-indigo-100 rounded-xl border border-indigo-800/60 shadow-inner flex items-start space-x-3">
-              <div class="w-8 h-8 rounded-lg bg-amber-500 text-slate-950 flex items-center justify-center font-bold text-xs flex-shrink-0 mt-0.5">
+              <div class="w-8 h-8 rounded-lg bg-amber-500 text-slate-950 flex items-center justify-center font-bold text-xs shrink-0 mt-0.5">
                 <i class="fa-solid fa-closed-captioning"></i>
               </div>
               <div class="space-y-0.5 text-xs">
@@ -676,7 +676,7 @@ function getAppHTML() {
             <form id="orderForm" onsubmit="handleCreateOrder(event)" class="space-y-4">
               <div>
                 <label class="block text-xs font-semibold text-slate-700 mb-1">Select Customer</label>
-                <select id="orderCustomer" class="w-full border rounded-xl p-2.5 text-sm bg-slate-50 focus:bg-white focus:outline-indigo-500">
+                <select id="orderCustomer" class="w-full border rounded-xl p-2.5 text-sm bg-slate-50 focus:outline-indigo-500">
                   <option value="cust-retailer-a">Retailer A (Chennai Stores) - Tamil Nadu</option>
                   <option value="cust-distributor-b">Distributor B (Bengaluru Hub) - Karnataka</option>
                 </select>
@@ -865,14 +865,14 @@ function getAppHTML() {
       <!-- TAB 4: BOM & PRODUCTION & MRP PLANNING -->
       <section id="tab-production" class="hidden space-y-6 animate-fadeIn">
         <!-- MRP Material Requirement Planning Banner -->
-        <div class="bg-gradient-to-r from-indigo-950 via-slate-900 to-indigo-950 text-white rounded-2xl p-6 shadow-xl border border-indigo-800/40">
+        <div class="bg-linear-to-r from-indigo-950 via-slate-900 to-indigo-950 text-white rounded-2xl p-6 shadow-xl border border-indigo-800/40">
           <div class="flex flex-wrap justify-between items-start gap-4">
             <div>
               <span class="text-[11px] bg-amber-400 text-slate-950 font-black px-2.5 py-0.5 rounded-full uppercase tracking-wider">MRP Demand Planner</span>
               <h3 class="text-lg sm:text-xl font-black mt-1.5">Production Planning from Pending Retail Demand</h3>
               <p class="text-xs text-indigo-200 mt-1" id="planningSummaryText">Calculating raw material and packaging needs...</p>
             </div>
-            <button onclick="applyPlanningToRun()" class="bg-gradient-to-r from-amber-500 to-amber-400 hover:from-amber-400 hover:to-amber-300 text-slate-950 font-extrabold text-xs px-4 py-2.5 rounded-xl shadow transition flex items-center active:scale-95">
+            <button onclick="applyPlanningToRun()" class="bg-linear-to-r from-amber-500 to-amber-400 hover:from-amber-400 hover:to-amber-300 text-slate-950 font-extrabold text-xs px-4 py-2.5 rounded-xl shadow transition flex items-center active:scale-95">
               <i class="fa-solid fa-wand-magic-sparkles mr-1.5"></i>Auto-Fill Batch Values
             </button>
           </div>
@@ -1073,7 +1073,7 @@ function getAppHTML() {
 
           <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
             <!-- FIFO Method Card -->
-            <div class="border rounded-2xl p-6 bg-gradient-to-br from-indigo-50/70 to-white border-indigo-200 shadow-sm">
+            <div class="border rounded-2xl p-6 bg-linear-to-br from-indigo-50/70 to-white border-indigo-200 shadow-sm">
               <div class="flex justify-between items-start mb-3">
                 <span class="text-xs font-bold uppercase tracking-wider text-indigo-700">Valuation: FIFO (First In First Out)</span>
                 <span class="text-xs bg-indigo-100 text-indigo-800 font-bold px-2.5 py-0.5 rounded-full">Primary</span>
@@ -1102,7 +1102,7 @@ function getAppHTML() {
             </div>
 
             <!-- Weighted Average Method Card -->
-            <div class="border rounded-2xl p-6 bg-gradient-to-br from-amber-50/70 to-white border-amber-200 shadow-sm">
+            <div class="border rounded-2xl p-6 bg-linear-to-br from-amber-50/70 to-white border-amber-200 shadow-sm">
               <div class="flex justify-between items-start mb-3">
                 <span class="text-xs font-bold uppercase tracking-wider text-amber-700">Valuation: Weighted Average</span>
                 <span class="text-xs bg-amber-100 text-amber-800 font-bold px-2.5 py-0.5 rounded-full">Alternate</span>
@@ -1223,7 +1223,7 @@ function getAppHTML() {
   </div>
 
   <!-- MODAL 1: AUTHENTIC PRINTABLE INDIAN GST TAX INVOICE -->
-  <div id="invoiceModal" class="hidden fixed inset-0 z-50 overflow-y-auto bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-4">
+  <div id="invoiceModal" class="hidden fixed inset-0 z-50 overflow-y-auto bg-slate-900/60 backdrop-blur-sm items-center justify-center p-4">
     <div class="bg-white rounded-2xl shadow-2xl max-w-3xl w-full p-6 sm:p-8 space-y-6 relative border border-slate-300">
       <div class="flex justify-between items-center border-b pb-4 no-print">
         <div>
@@ -1247,7 +1247,7 @@ function getAppHTML() {
   </div>
 
   <!-- MODAL 2: GOVERNMENT E-INVOICE & E-WAY BILL SLIP -->
-  <div id="ewayModal" class="hidden fixed inset-0 z-50 overflow-y-auto bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-4">
+  <div id="ewayModal" class="hidden fixed inset-0 z-50 overflow-y-auto bg-slate-900/60 backdrop-blur-sm items-center justify-center p-4">
     <div class="bg-white rounded-2xl shadow-2xl max-w-xl w-full p-6 space-y-5 relative border border-slate-300">
       <div class="flex justify-between items-center border-b pb-3">
         <div class="flex items-center space-x-2">
