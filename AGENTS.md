@@ -32,3 +32,4 @@ use the editor.
 <!-- AGENT-MEMORY:BEGIN -->
 - Use database functions for atomic stock, production, invoicing, and payment postings so every balance change has a ledger source and authorization check.
 <!-- AGENT-MEMORY:END -->
+

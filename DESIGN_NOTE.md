@@ -149,3 +149,4 @@ The factory is in Tamil Nadu (`State Code: 33`).
 - **Inter-State Supplies (Distributor B in Karnataka, State 29):**
   - Stock check flags shortage: 120 ordered vs 88 available = **32 packets shortage**.
   - If billed, IGST applies at 5.0% ($120 \times 50 = ₹6,000 + ₹300 \text{ IGST} = ₹6,300$).
+

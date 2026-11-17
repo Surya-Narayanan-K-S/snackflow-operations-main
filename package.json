@@ -10,9 +10,9 @@
     "preview": "vite preview",
     "lint": "eslint .",
     "format": "prettier --write .",
-    "start": "node server.js",
-    "benchmark": "node benchmark.js",
-    "test": "node --test test.js",
+    "start": "node src/server.js",
+    "benchmark": "node src/benchmark.js",
+    "test": "node --test src/test.js",
     "test:vitest": "vitest run",
     "test:watch": "vitest"
   },
