@@ -192,6 +192,16 @@ const server = http.createServer(async (req, res) => {
   res.end('Not Found');
 });
 
+server.on('error', (err) => {
+  if (err.code === 'EADDRINUSE') {
+    console.error(`\n❌ Error: Port ${PORT} is already in use.`);
+    console.error(`👉 Tip: Either free port ${PORT} or specify a different port:`);
+    console.error(`   PORT=8081 node src/server.js\n`);
+    process.exit(1);
+  }
+  console.error('Server error:', err);
+});
+
 server.listen(PORT, '0.0.0.0', () => {
   console.log(`\n=============================================================`);
   console.log(`🚀 SnackFlow Operations Web Server is live at: http://localhost:${PORT}`);
