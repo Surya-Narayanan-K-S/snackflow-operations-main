@@ -1,4 +1,4 @@
-- [ ] Create Cloud schema with atomic posting functions, protected profiles/roles, and benchmark seed data.
-- [ ] Build sign-in and role-aware order, purchase, production, billing, inventory, and audit screens.
-- [ ] Add exact benchmark calculation tests and README/design note.
-- [ ] Verify build, tests, and the public first screen; re-read this roadmap before completion.
+- [x] Create Cloud schema with atomic posting functions, protected profiles/roles, and benchmark seed data.
+- [x] Build sign-in and role-aware order, purchase, production, billing, inventory, and audit screens.
+- [x] Add exact benchmark calculation tests and README/design note.
+- [x] Verify build, tests, and the public first screen; re-read this roadmap before completion.
