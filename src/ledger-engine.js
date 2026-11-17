@@ -45,6 +45,7 @@ export class LedgerEngine {
     this.salesOrders = [];
     this.invoices = [];
     this.payments = [];
+    this.visits = [];
     this.auditLogs = [
       {
         id: 'audit-0',
@@ -1018,6 +1019,165 @@ export class LedgerEngine {
         allPassed,
       },
     };
+  }
+
+  /**
+   * Log Salesman Field Visit / Route Check-in
+   */
+  postSalesmanVisit(data) {
+    const customer = this.customers.find((c) => c.id === data.customerId) || this.customers[0];
+    const visit = {
+      id: `vis-${Date.now()}`,
+      salesmanId: this.currentUser.id,
+      salesmanName: this.currentUser.name,
+      customerId: customer.id,
+      customerName: customer.name,
+      timestamp: new Date().toISOString(),
+      shopStatus: data.shopStatus || 'Visited & Ordered',
+      gpsCoordinates: data.gpsCoordinates || '9.9252° N, 78.1198° E (Kappalur, Madurai)',
+      notes: data.notes || 'Routine route shop visit completed',
+    };
+    this.visits.unshift(visit);
+    this.auditLogs.unshift({
+      id: `audit-${Date.now()}`,
+      timestamp: visit.timestamp,
+      entityType: 'order',
+      entityId: visit.id,
+      action: 'create',
+      performedBy: this.currentUser.name,
+      details: `Field Check-in by ${this.currentUser.name} at ${customer.name}: ${visit.shopStatus}`,
+    });
+    return visit;
+  }
+
+  /**
+   * Production Planning from Pending Sales Orders
+   * "To fulfill today's orders, make X batches"
+   */
+  getProductionPlanning() {
+    const pendingOrders = this.salesOrders.filter((o) => o.status !== 'dispatched' && o.status !== 'rejected');
+    let totalOrderedPkts = 0;
+    for (const ord of pendingOrders) {
+      for (const item of ord.items) {
+        if (item.itemId === 'item-murukku-200g') {
+          totalOrderedPkts += item.quantity;
+        }
+      }
+    }
+
+    const availableStock = this.getStockBalance('item-murukku-200g');
+    const netShortage = Math.max(0, totalOrderedPkts - availableStock);
+    const batchYield = this.bom.batchSizeExpectedPackets; // 200
+    const batchesRequired = netShortage > 0 ? Math.ceil(netShortage / batchYield) : 0;
+
+    const materialsRequired = [
+      {
+        itemId: 'item-flour',
+        name: 'Flour (Besan/Rice blend)',
+        qtyRequired: batchesRequired * 40,
+        unit: 'kg',
+        currentStock: this.getStockBalance('item-flour'),
+        isDeficit: this.getStockBalance('item-flour') < batchesRequired * 40,
+      },
+      {
+        itemId: 'item-oil',
+        name: 'Cooking Oil',
+        qtyRequired: batchesRequired * 10,
+        unit: 'litre',
+        currentStock: this.getStockBalance('item-oil'),
+        isDeficit: this.getStockBalance('item-oil') < batchesRequired * 10,
+      },
+      {
+        itemId: 'item-spices',
+        name: 'Salt & Spice Mix',
+        qtyRequired: round2(batchesRequired * 1.2),
+        unit: 'kg',
+        currentStock: this.getStockBalance('item-spices'),
+        isDeficit: this.getStockBalance('item-spices') < batchesRequired * 1.2,
+      },
+      {
+        itemId: 'item-pouch',
+        name: '200g Printed Pouch',
+        qtyRequired: batchesRequired * 200,
+        unit: 'piece',
+        currentStock: this.getStockBalance('item-pouch'),
+        isDeficit: this.getStockBalance('item-pouch') < batchesRequired * 200,
+      },
+      {
+        itemId: 'item-carton',
+        name: 'Master Carton (Holds 20)',
+        qtyRequired: batchesRequired * 10,
+        unit: 'piece',
+        currentStock: this.getStockBalance('item-carton'),
+        isDeficit: this.getStockBalance('item-carton') < batchesRequired * 10,
+      },
+    ];
+
+    return {
+      pendingOrdersCount: pendingOrders.length,
+      totalOrderedPkts,
+      availableStock,
+      netShortage,
+      batchesRequired,
+      batchYield,
+      materialsRequired,
+    };
+  }
+
+  /**
+   * e-Invoice and e-Way Bill Mock Generator (NIC format)
+   */
+  getEInvoiceData(invoiceId) {
+    const inv = this.invoices.find((i) => i.id === invoiceId) || this.invoices[0];
+    if (!inv) return null;
+
+    const baseStr = `${inv.sellerGstin}-${inv.financialYear}-${inv.invoiceNumber}`;
+    let hash = 0;
+    for (let i = 0; i < baseStr.length; i++) {
+      hash = (hash << 5) - hash + baseStr.charCodeAt(i);
+      hash |= 0;
+    }
+    const irn = (Math.abs(hash).toString(16) + '0123456789abcdef9876543210fedcba876543210abcdef0123456789abcdef').slice(0, 64);
+    const ackNo = '1126' + String(Math.abs(hash)).slice(0, 8);
+    const ewayBillNo = '3310' + String(Math.abs(hash * 3)).slice(0, 8);
+
+    return {
+      invoiceNumber: inv.invoiceNumber,
+      invoiceDate: inv.invoiceDate,
+      irn,
+      ackNo,
+      ackDate: inv.createdAt,
+      signedQrPayload: `IRN:${irn}|GSTIN:${inv.sellerGstin}|BUYER:${inv.customerGstin || 'URP'}|VAL:${inv.grandTotal}|DATE:${inv.invoiceDate}`,
+      ewayBillNo,
+      ewayBillDate: inv.invoiceDate,
+      vehicleNumber: 'TN-58-AB-1234',
+      validUntil: '2026-11-20 23:59:00',
+      fromPlace: 'Madurai, TN (33)',
+      toPlace: `${inv.customerState} (${inv.customerStateCode})`,
+    };
+  }
+
+  /**
+   * Real-time Low Stock & Reorder Alerts
+   */
+  getLowStockAlerts() {
+    const alerts = [];
+    for (const item of this.items) {
+      const cur = this.getStockBalance(item.id);
+      if (cur <= item.reorderLevel) {
+        alerts.push({
+          itemId: item.id,
+          code: item.code,
+          name: item.name,
+          unit: item.unit,
+          currentStock: cur,
+          reorderLevel: item.reorderLevel,
+          shortfall: item.reorderLevel - cur,
+          severity: cur === 0 ? 'critical' : 'warning',
+        });
+      }
+    }
+    return alerts;
   }
 }
 
