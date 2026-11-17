@@ -15,9 +15,9 @@
 ```bash
 npm start
 # OR directly:
-node server.js
+node src/server.js
 ```
-Open **[http://localhost:3000](http://localhost:3000)** in your browser to access the complete interactive ERP with role switcher, mobile salesman order taking, production floor BOM logger, GST tax billing, live stock ledger, and auditor reports.
+Open **[http://localhost:8080](http://localhost:8080)** in your browser to access the complete interactive ERP with role switcher, mobile salesman order taking, production floor BOM logger, GST tax billing, live stock ledger, and auditor reports.
 
 ### Run the Automated Benchmark Runner (CLI)
 ```bash

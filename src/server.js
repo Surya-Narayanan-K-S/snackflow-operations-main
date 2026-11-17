@@ -3,14 +3,14 @@
  * Centre for Digital Infrastructure, NIT Tiruchirappalli
  *
  * Runs with: node src/server.js
- * Access at: http://localhost:3000
+ * Access at: http://localhost:8080
  */
 
 import http from 'node:http';
 import { LedgerEngine } from './ledger-engine.js';
 import { ReportingEngine } from './reports.js';
 
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 8080;
 const engine = new LedgerEngine();
 const reports = new ReportingEngine(engine);
 
