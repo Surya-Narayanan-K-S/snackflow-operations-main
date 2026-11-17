@@ -138,3 +138,4 @@ Thank you!"
 | **9** | Retailer A outstanding balance | ₹3,875 (₹7,875 − ₹4,000) | **₹3,875.00** (PASS ✓) |
 | **10** | Distributor B order shortage | Shortage of 32 packets flagged | **32 packets Shortage** (PASS ✓) |
 | **11** | Cost per packet & Overheads | FIFO: ₹30.90 / Weighted Avg: ₹31.14 | **₹30.90 / ₹31.14** (PASS ✓) |
+

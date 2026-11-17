@@ -7,6 +7,8 @@
  */
 
 import http from 'node:http';
+import fs from 'node:fs';
+import { resolve as pathResolve } from 'node:path';
 import { LedgerEngine } from './ledger-engine.js';
 import { ReportingEngine } from './reports.js';
 
@@ -202,6 +204,22 @@ const server = http.createServer(async (req, res) => {
       'Content-Disposition': 'attachment; filename=snackflow_tally_vouchers.xml',
     });
     return res.end(xml);
+  }
+
+  // --- SERVE THE PRE-RENDERED MP4 DEMO VIDEO ---
+  if ((path === '/demo.mp4' || path === '/snackflow_benchmark_demo.mp4') && method === 'GET') {
+    const mp4Path = pathResolve(process.cwd(), 'snackflow_benchmark_demo.mp4');
+    if (fs.existsSync(mp4Path)) {
+      const stat = fs.statSync(mp4Path);
+      res.writeHead(200, {
+        'Content-Type': 'video/mp4',
+        'Content-Length': stat.size,
+        'Accept-Ranges': 'bytes',
+        'Content-Disposition': 'attachment; filename=snackflow_benchmark_demo.mp4',
+      });
+      fs.createReadStream(mp4Path).pipe(res);
+      return;
+    }
   }
 
   // --- SERVE THE WEB FRONTEND SPA ---
@@ -539,9 +557,14 @@ function getAppHTML() {
                 </select>
               </div>
 
-              <!-- Start Recording Button -->
+              <!-- 1-Click Direct MP4 Download Button -->
+              <a href="/snackflow_benchmark_demo.mp4" download="snackflow_benchmark_demo.mp4" class="bg-gradient-to-r from-emerald-600 to-emerald-500 hover:from-emerald-500 hover:to-emerald-400 text-white font-extrabold text-xs px-4 py-2.5 rounded-xl shadow-md flex items-center transition active:scale-95">
+                <i class="fa-solid fa-file-video mr-1.5 text-sm"></i>Download .MP4 Demo Video
+              </a>
+
+              <!-- Start In-Browser Canvas Recording Button -->
               <button id="btnStartVideo" onclick="startVideoRecording()" class="bg-gradient-to-r from-rose-600 to-rose-500 hover:from-rose-500 hover:to-rose-400 text-white font-extrabold text-xs px-4 py-2.5 rounded-xl shadow-md flex items-center transition active:scale-95">
-                <i class="fa-solid fa-video mr-1.5"></i>Record & Download Demo Video
+                <i class="fa-solid fa-video mr-1.5"></i>Live Canvas Record
               </button>
 
               <!-- Manual Download Button -->
@@ -561,6 +584,28 @@ function getAppHTML() {
             <div class="flex justify-between items-center text-xs font-semibold text-slate-600 px-1">
               <span id="videoStatusText">Ready to record. Click "Record & Download Demo Video" above.</span>
               <span id="videoTimeText" class="font-mono text-slate-500">00:00 / 00:45</span>
+            </div>
+
+            <!-- Official Pre-Rendered .MP4 Video Player -->
+            <div class="p-5 rounded-2xl bg-gradient-to-br from-slate-900 to-indigo-950 text-white border border-slate-700 shadow-xl space-y-3">
+              <div class="flex flex-wrap justify-between items-center gap-3">
+                <div class="flex items-center space-x-2">
+                  <div class="w-8 h-8 rounded-lg bg-emerald-500 text-slate-950 flex items-center justify-center font-black">
+                    <i class="fa-solid fa-play"></i>
+                  </div>
+                  <div>
+                    <h4 class="text-sm font-bold text-white flex items-center gap-2">
+                      Official Generated .MP4 Benchmark Demo Video
+                      <span class="text-[10px] bg-emerald-400 text-slate-950 font-black px-2 py-0.5 rounded-full uppercase">720p HD</span>
+                    </h4>
+                    <p class="text-[11px] text-slate-400">Pre-rendered and verified on disk • Ready for instant upload to YouTube, Drive, or NIT Trichy portal</p>
+                  </div>
+                </div>
+                <a href="/snackflow_benchmark_demo.mp4" download="snackflow_benchmark_demo.mp4" class="bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-black text-xs px-3.5 py-2 rounded-xl shadow transition active:scale-95 flex items-center">
+                  <i class="fa-solid fa-download mr-1.5"></i>Download .MP4 (0.93 MB)
+                </a>
+              </div>
+              <video src="/snackflow_benchmark_demo.mp4" controls preload="metadata" class="w-full rounded-xl shadow-2xl border border-slate-700 max-h-96 bg-black"></video>
             </div>
 
             <!-- Canvas Display Element -->
