@@ -140,3 +140,43 @@ test('6. Reporting Engine Outputs Valid Auditor Statements', () => {
   assert.ok(xml.includes('<AMOUNT>-7875</AMOUNT>'));
 });
 
+test('7. Production Planning (MRP), e-Invoice IRN & Salesman Field Check-ins', () => {
+  const engine = new LedgerEngine();
+  engine.runFullBenchmark();
+
+  // Test Production Planning
+  const plan = engine.getProductionPlanning();
+  assert.ok(plan.pendingOrdersCount >= 1);
+  assert.ok(plan.materialsRequired.length === 5);
+  // Shortage: 120 ordered by B - 88 in stock = 32 shortage => 1 batch required
+  assert.equal(plan.netShortage, 32);
+  assert.equal(plan.batchesRequired, 1);
+
+  // Test e-Invoice Generation
+  const inv = engine.invoices[0];
+  const einv = engine.getEInvoiceData(inv.id);
+  assert.equal(einv.invoiceNumber, inv.invoiceNumber);
+  assert.equal(einv.irn.length, 64, 'IRN hash must be 64 characters');
+  assert.ok(einv.ackNo.length > 5);
+  assert.ok(einv.ewayBillNo.length > 5);
+  assert.equal(einv.vehicleNumber, 'TN-58-AB-1234');
+
+  // Test Low Stock Alerts
+  const alerts = engine.getLowStockAlerts();
+  assert.ok(Array.isArray(alerts));
+  // Oil at 19.5L is below reorder 25L
+  const oilAlert = alerts.find((a) => a.itemId === 'item-oil');
+  assert.ok(oilAlert, 'Oil must be flagged in low-stock alerts');
+
+  // Test Field Visit Check-in
+  const visit = engine.postSalesmanVisit({
+    customerId: 'cust-retailer-a',
+    shopStatus: 'Visited & Ordered 150 pkts',
+    gpsCoordinates: '9.9252° N, 78.1198° E (Madurai)',
+    notes: 'Retailer requested fast morning delivery',
+  });
+  assert.equal(visit.customerName, 'Retailer A (Chennai Stores)');
+  assert.equal(engine.visits.length, 1);
+});
+
+
