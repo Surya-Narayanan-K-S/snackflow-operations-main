@@ -1,20 +1,12 @@
 {
-  "name": "tanstack_start_ts",
+  "name": "snackflow-operations",
   "private": true,
   "sideEffects": false,
   "type": "module",
   "scripts": {
-    "dev": "vite dev",
-    "build": "vite build",
-    "build:dev": "vite build --mode development",
-    "preview": "vite preview",
-    "lint": "eslint .",
-    "format": "prettier --write .",
     "start": "node src/server.js",
     "benchmark": "node src/benchmark.js",
-    "test": "node --test src/test.js",
-    "test:vitest": "vitest run",
-    "test:watch": "vitest"
+    "test": "node --test src/test.js"
   },
   "overrides": {
     "rolldown": "1.2.1"

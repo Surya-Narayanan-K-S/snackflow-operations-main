@@ -110,3 +110,4 @@ export function calculateVariance(actual, standard, tolerancePercent = 3.0) {
     direction,
   };
 }
+

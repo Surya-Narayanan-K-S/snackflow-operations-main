@@ -150,3 +150,4 @@ if (metrics.checks.allPassed) {
   console.error('\n>>> SOME BENCHMARK CRITERIA FAILED! <<<\n');
   process.exit(1);
 }
+

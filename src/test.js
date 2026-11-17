@@ -139,3 +139,4 @@ test('6. Reporting Engine Outputs Valid Auditor Statements', () => {
   assert.ok(xml.includes('<VOUCHER VCHTYPE="Sales"'));
   assert.ok(xml.includes('<AMOUNT>-7875</AMOUNT>'));
 });
+

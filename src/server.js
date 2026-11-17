@@ -7,7 +7,6 @@
  */
 
 import http from 'node:http';
-import { parse } from 'node:url';
 import { LedgerEngine } from './ledger-engine.js';
 import { ReportingEngine } from './reports.js';
 
@@ -40,7 +39,7 @@ function sendJSON(res, statusCode, data) {
 }
 
 const server = http.createServer(async (req, res) => {
-  const parsedUrl = parse(req.url, true);
+  const parsedUrl = new URL(req.url, 'http://' + (req.headers.host || 'localhost:' + PORT));
   const path = parsedUrl.pathname;
   const method = req.method;
 
@@ -165,7 +164,7 @@ const server = http.createServer(async (req, res) => {
   }
 
   if (path === '/api/export/csv' && method === 'GET') {
-    const type = parsedUrl.query.type || 'sales';
+    const type = parsedUrl.searchParams.get('type') || 'sales';
     const csv = reports.exportToCSV(type);
     res.writeHead(200, {
       'Content-Type': 'text/csv',
@@ -193,7 +192,7 @@ const server = http.createServer(async (req, res) => {
   res.end('Not Found');
 });
 
-server.listen(PORT, () => {
+server.listen(PORT, '0.0.0.0', () => {
   console.log(`\n=============================================================`);
   console.log(`🚀 SnackFlow Operations Web Server is live at: http://localhost:${PORT}`);
   console.log(`=============================================================\n`);
@@ -1303,3 +1302,4 @@ function getAppHTML() {
 </body>
 </html>`;
 }
+
